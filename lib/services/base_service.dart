@@ -1,5 +1,5 @@
 abstract class BaseService<T> {
-  findOnne(int id);
+  findOne(int id);
   List<T> findAll();
   bool save(T value);
   bool delete(int id);

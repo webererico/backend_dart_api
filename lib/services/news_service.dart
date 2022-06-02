@@ -17,7 +17,7 @@ class NewsService implements BaseService<NewsModel> {
   }
 
   @override
-  findOnne(int id) {
+  findOne(int id) {
     return _fakeDB.firstWhere((element) => element.id == id);
   }
 
