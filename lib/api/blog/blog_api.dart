@@ -10,10 +10,12 @@ import 'package:shelf_router/shelf_router.dart';
 class BlogApi extends Api {
   final NewsService _service;
 
-  BlogApi(this._service);
+  BlogApi(
+    this._service,
+  );
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({List<Middleware>? middlewares, bool isSecurity = false}) {
     Router router = Router();
 
     router.get(Endpoints.blog, (Request req) {
@@ -40,6 +42,10 @@ class BlogApi extends Api {
       return Response.ok('Rain deleted');
     });
 
-    return createHandler(router: router, middlewares: middlewares);
+    return createHandler(
+      router: router,
+      isSecurity: isSecurity,
+      middlewares: middlewares,
+    );
   }
 }

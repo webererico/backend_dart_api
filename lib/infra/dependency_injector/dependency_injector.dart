@@ -18,11 +18,13 @@ class DependencyInjector {
     }
     throw Exception('ERROR -> Instance ${T.toString()} not found.');
   }
+
+  call<T extends Object>() => get<T>();
 }
 
 class _InstanceGenerator<T> {
   T? _instance;
-  bool _isFirstGet = false;
+  bool _isFirstGet = true;
 
   final InstanceCreator<T> _instanceCreator;
 
