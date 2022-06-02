@@ -3,7 +3,7 @@ import 'package:backend/services/base_service.dart';
 import 'package:backend/utils/list_extension.dart';
 
 class NewsService implements BaseService<NewsModel> {
-  List<NewsModel> _fakeDB = [];
+  final List<NewsModel> _fakeDB = [];
 
   @override
   bool delete(int id) {

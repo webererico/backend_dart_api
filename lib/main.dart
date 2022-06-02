@@ -9,13 +9,22 @@ import 'package:backend/utils/custom_env.dart';
 import 'package:shelf/shelf.dart';
 
 void main(List<String> arguments) async {
-  var cascadehandler =
-      Cascade().add(LoginApi(SecurityServiceImp()).handler).add(BlogApi(NewsService()).handler).handler;
-  var handler = Pipeline()
-      .addMiddleware(MiddlewareInterception().middleware)
-      .addMiddleware(
-        logRequests(),
+  final SecurityServiceImp securityService = SecurityServiceImp();
+
+  var cascadehandler = Cascade()
+      .add(LoginApi(securityService).getHandler())
+      .add(
+        BlogApi(NewsService()).getHandler(
+          middlewares: [
+            // securityService.authorization,
+            // securityService.verifyJWT,
+          ],
+        ),
       )
+      .handler;
+  var handler = Pipeline()
+      .addMiddleware(logRequests())
+      .addMiddleware(MiddlewareInterception().middleware)
       .addHandler(cascadehandler);
   await CustomServer().initialize(
     handler: handler,

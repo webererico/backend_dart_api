@@ -1,18 +1,19 @@
 import 'dart:convert';
 
+import 'package:backend/api/api.dart';
 import 'package:backend/constants/endpoints.dart';
 import 'package:backend/models/news_model.dart';
-import 'package:backend/services/base_service.dart';
 import 'package:backend/services/news_service.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class BlogApi {
+class BlogApi extends Api {
   final NewsService _service;
 
   BlogApi(this._service);
 
-  Handler get handler {
+  @override
+  Handler getHandler({List<Middleware>? middlewares}) {
     Router router = Router();
 
     router.get(Endpoints.blog, (Request req) {
@@ -39,6 +40,6 @@ class BlogApi {
       return Response.ok('Rain deleted');
     });
 
-    return router;
+    return createHandler(router: router, middlewares: middlewares);
   }
 }

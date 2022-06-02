@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:backend/constants/variables.dart';
-
 import 'parser_extension.dart';
 
 class CustomEnv {
