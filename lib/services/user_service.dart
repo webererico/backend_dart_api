@@ -1,6 +1,7 @@
 import 'package:backend/dao/user_dao.dart';
 import 'package:backend/models/user_model.dart';
 import 'package:backend/services/base_service.dart';
+import 'package:password_dart/password_dart.dart';
 
 class UserService implements BaseService<UserModel> {
   final UserDAO _userDAO;
@@ -27,6 +28,8 @@ class UserService implements BaseService<UserModel> {
     if (value.id != null) {
       return await _userDAO.update(value);
     }
+    final hash = Password.hash(value.password!, PBKDF2());
+    value.password = hash;
     return await _userDAO.create(value);
   }
 }
