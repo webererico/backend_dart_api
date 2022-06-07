@@ -1,5 +1,7 @@
 import 'package:backend/api/blog/blog_api.dart';
 import 'package:backend/api/login/login_api.dart';
+import 'package:backend/infra/database/db_configuration.dart';
+import 'package:backend/infra/database/mysql_db_configuration.dart';
 import 'package:backend/infra/dependency_injector/dependency_injector.dart';
 import 'package:backend/infra/security/security_service.dart';
 import 'package:backend/infra/security/security_service_imp.dart';
@@ -9,6 +11,7 @@ class Injects {
   static DependencyInjector initialize() {
     var di = DependencyInjector();
 
+    di.register<DBConfiguration>(() => MysqlDBConfiguration());
     di.register<SecurityService>(() => SecurityServiceImp());
 
     di.register<LoginApi>(() => LoginApi(di.get()));

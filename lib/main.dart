@@ -9,7 +9,6 @@ import 'package:shelf/shelf.dart';
 
 void main(List<String> arguments) async {
   var di = Injects.initialize();
-
   var cascadeHandler = Cascade().add(di.get<LoginApi>().getHandler()).add(di.get<BlogApi>().getHandler()).handler;
   var handler = Pipeline()
       .addMiddleware(logRequests())
