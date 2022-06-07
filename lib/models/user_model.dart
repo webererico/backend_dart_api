@@ -32,6 +32,13 @@ class UserModel {
     };
   }
 
+  factory UserModel.fromRequest(Map map) {
+    return UserModel()
+      ..name = map['name']
+      ..email = map['email']
+      ..password = map['password'];
+  }
+
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel.create(
       id: map['id'] as int,
