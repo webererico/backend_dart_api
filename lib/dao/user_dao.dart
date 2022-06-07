@@ -44,6 +44,11 @@ class UserDAO implements DAO<UserModel> {
     return result.affectedRows == 0 ? null : UserModel.fromMap(result.first.fields);
   }
 
+  Future<UserModel?> findByEmail(String email) async {
+    final result = await _execQuery(Queries.findUserByEmail, [email]);
+    return result.affectedRows == 0 ? null : UserModel.fromEmail(result.first.fields);
+  }
+
   @override
   Future<bool> update(UserModel value) async {
     final result = await _execQuery(

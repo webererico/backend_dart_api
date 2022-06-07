@@ -32,4 +32,6 @@ class UserService implements BaseService<UserModel> {
     value.password = hash;
     return await _userDAO.create(value);
   }
+
+  Future<UserModel?> findByEmail(String email) async => _userDAO.findByEmail(email);
 }

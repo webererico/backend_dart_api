@@ -4,4 +4,5 @@ class Queries {
   static const insertUser = 'INSERT INTO usuarios (nome, email, password) VALUES (?, ?, ?)';
   static const deleteUser = 'DELETE from usuarios where id = ?';
   static const updateUser = 'UPDATE usuarios set nome = ?, password = ? where id = ?';
+  static const findUserByEmail = 'SELECT * from usuarios WHERE email = ?';
 }

@@ -39,6 +39,12 @@ class UserModel {
       ..password = map['password'];
   }
 
+  factory UserModel.fromEmail(Map map) {
+    return UserModel()
+      ..id = map['id']?.toInt()
+      ..password = map['password'];
+  }
+
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel.create(
       id: map['id'] as int,

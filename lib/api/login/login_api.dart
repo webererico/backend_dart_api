@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:backend/api/api.dart';
 import 'package:backend/constants/endpoints.dart';
 import 'package:backend/infra/security/security_service.dart';
+import 'package:backend/services/login_service.dart';
+import 'package:backend/to/auth_to.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class LoginApi extends Api {
   final SecurityService _securityService;
-  LoginApi(this._securityService);
+  final LoginService _loginService;
+
+  LoginApi(this._securityService, this._loginService);
 
   @override
   Handler getHandler({
@@ -17,8 +23,17 @@ class LoginApi extends Api {
     router.post(
       Endpoints.login,
       (Request req) async {
-        String token = await _securityService.generateJWT('1');
-        return Response.ok(token);
+        var body = await req.readAsString();
+        var authTO = AuthTo.fromRequest(body);
+        var userId = await _loginService.authenticate(authTO);
+        if (userId > 0) {
+          var jwt = await _securityService.generateJWT(userId.toString());
+          return Response.ok(
+            jsonEncode({'token': jwt}),
+          );
+        } else {
+          return Response(401);
+        }
       },
     );
     return createHandler(
