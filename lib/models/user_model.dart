@@ -2,19 +2,23 @@
 import 'dart:convert';
 
 class UserModel {
-  final int id;
-  final String name;
-  final String email;
-  final bool isActived;
-  final DateTime createdAt;
-  final DateTime updateAt;
-  UserModel({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.isActived,
-    required this.createdAt,
-    required this.updateAt,
+  int? id;
+  String? name;
+  String? email;
+  String? password;
+  bool? isActived;
+  DateTime? createdAt;
+  DateTime? updateAt;
+
+  UserModel();
+
+  UserModel.create({
+    this.id,
+    this.name,
+    this.email,
+    this.isActived,
+    this.createdAt,
+    this.updateAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,13 +27,13 @@ class UserModel {
       'name': name,
       'email': email,
       'isActived': isActived,
-      'createdAt': createdAt.millisecondsSinceEpoch,
-      'updateAt': updateAt.millisecondsSinceEpoch,
+      'createdAt': createdAt?.millisecondsSinceEpoch,
+      'updateAt': updateAt?.millisecondsSinceEpoch,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+    return UserModel.create(
       id: map['id'] as int,
       name: map['nome'] as String,
       email: map['email'] as String,

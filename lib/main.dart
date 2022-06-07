@@ -12,8 +12,7 @@ import 'package:shelf/shelf.dart';
 void main(List<String> arguments) async {
   var di = Injects.initialize();
 
-  UserDAO _userDAO = UserDAO(di<DBConfiguration>());
-  print(await _userDAO.findOne(1));
+  UserDAO userDAO = UserDAO(di<DBConfiguration>());
 
   var cascadeHandler = Cascade().add(di.get<LoginApi>().getHandler()).add(di.get<BlogApi>().getHandler()).handler;
   var handler = Pipeline().addMiddleware(MiddlewareInterception().middleware).addHandler(cascadeHandler);
