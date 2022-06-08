@@ -7,14 +7,9 @@ class UserDAO implements DAO<UserModel> {
   final DBConfiguration _dbConfiguration;
   UserDAO(this._dbConfiguration);
 
-  _execQuery(String sql, [List? params]) async {
-    final connection = await _dbConfiguration.connection;
-    return await connection.query(sql, params);
-  }
-
   @override
   Future<bool> create(UserModel value) async {
-    final result = await _execQuery(
+    final result = await _dbConfiguration.execQuery(
       Queries.insertUser,
       [
         value.name,
@@ -28,30 +23,30 @@ class UserDAO implements DAO<UserModel> {
 
   @override
   Future<bool> delete(int id) async {
-    final result = await _execQuery(Queries.deleteUser, [id]);
+    final result = await _dbConfiguration.execQuery(Queries.deleteUser, [id]);
     return result.affectedRows > 0;
   }
 
   @override
   Future<List<UserModel>> findAll() async {
-    final result = await _execQuery(Queries.findAllUsers);
+    final result = await _dbConfiguration.execQuery(Queries.findAllUsers);
     return result.map((r) => UserModel.fromMap(r.fields)).toList().cast<UserModel>();
   }
 
   @override
   Future<UserModel?> findOne(int id) async {
-    final result = await _execQuery(Queries.findOneUser, [id]);
+    final result = await _dbConfiguration.execQuery(Queries.findOneUser, [id]);
     return result.affectedRows == 0 ? null : UserModel.fromMap(result.first.fields);
   }
 
   Future<UserModel?> findByEmail(String email) async {
-    final result = await _execQuery(Queries.findUserByEmail, [email]);
+    final result = await _dbConfiguration.execQuery(Queries.findUserByEmail, [email]);
     return result.affectedRows == 0 ? null : UserModel.fromEmail(result.first.fields);
   }
 
   @override
   Future<bool> update(UserModel value) async {
-    final result = await _execQuery(
+    final result = await _dbConfiguration.execQuery(
       Queries.updateUser,
       [
         value.name,

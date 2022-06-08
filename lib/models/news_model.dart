@@ -1,45 +1,35 @@
-import 'dart:convert';
-
 class NewsModel {
-  final int id;
-  final String title;
-  final String description;
-  final String image;
-  final DateTime publishDate;
-  final DateTime? updateDate;
+  int? id;
+  String? title;
+  String? description;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? userId;
 
-  NewsModel({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.image,
-    required this.publishDate,
-    this.updateDate,
-  });
+  NewsModel();
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'title': title,
-      'description': description,
-      'image': image,
-      'publishDate': publishDate.millisecondsSinceEpoch,
-      'updateDate': updateDate?.millisecondsSinceEpoch,
-    };
+  factory NewsModel.fromMap(Map map) {
+    return NewsModel()
+      ..id = map['id']?.toInt()
+      ..title = map['titulo']
+      ..description = map['descricao'].toString()
+      ..createdAt = map['dt_criacao']
+      ..updatedAt = map['dt_atualizacao']
+      ..userId = map['id_usuario']?.toInt();
   }
 
-  factory NewsModel.fromMap(Map<String, dynamic> map) {
-    return NewsModel(
-      id: map['id'] as int,
-      title: map['title'] as String,
-      description: map['description'] as String,
-      image: map['image'] as String,
-      publishDate: DateTime.fromMillisecondsSinceEpoch(map['publishDate'] as int),
-      updateDate: map['updateDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updateDate'] as int) : null,
-    );
+  factory NewsModel.fromRequest(Map map) {
+    return NewsModel()
+      ..id = map['id']
+      ..title = map['title']
+      ..description = map['description']
+      ..userId = map['userId']?.toInt();
   }
 
-  String toJson() => json.encode(toMap());
+  Map toJson() => {'id': id, 'titulo': title, 'descricao': description};
 
-  factory NewsModel.fromJson(String source) => NewsModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  @override
+  String toString() {
+    return 'NewsModel(id: $id, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, userId: $userId)';
+  }
 }

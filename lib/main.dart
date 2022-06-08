@@ -1,5 +1,5 @@
-import 'package:backend/api/blog/blog_api.dart';
 import 'package:backend/api/login/login_api.dart';
+import 'package:backend/api/news/news_api.dart';
 import 'package:backend/api/user/user_api.dart';
 import 'package:backend/constants/variables.dart';
 import 'package:backend/infra/custom_server.dart';
@@ -12,7 +12,7 @@ void main(List<String> arguments) async {
   var di = Injects.initialize();
   var cascadeHandler = Cascade()
       .add(di.get<LoginApi>().getHandler())
-      .add(di.get<BlogApi>().getHandler())
+      .add(di.get<NewsApi>().getHandler())
       .add(di.get<UserApi>().getHandler(isSecurity: true))
       .handler;
   var handler = Pipeline().addMiddleware(MiddlewareInterception().middleware).addHandler(cascadeHandler);

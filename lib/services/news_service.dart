@@ -1,35 +1,21 @@
+import 'package:backend/dao/news_dao.dart';
 import 'package:backend/models/news_model.dart';
 import 'package:backend/services/base_service.dart';
-import 'package:backend/utils/list_extension.dart';
 
 class NewsService implements BaseService<NewsModel> {
-  final List<NewsModel> _fakeDB = [];
+  final NewsDAO _newsDAO;
+  NewsService(this._newsDAO);
 
   @override
-  Future<bool> delete(int id) async {
-    _fakeDB.removeWhere((element) => element.id == id);
-    return true;
-  }
+  Future<bool> delete(int id) async => await _newsDAO.delete(id);
 
   @override
-  Future<List<NewsModel>> findAll() async {
-    return _fakeDB;
-  }
+  Future<List<NewsModel>> findAll() async => await _newsDAO.findAll();
 
   @override
-  Future<NewsModel?> findOne(int id) async {
-    return _fakeDB.firstWhere((element) => element.id == id);
-  }
+  Future<NewsModel?> findOne(int id) async => await _newsDAO.findOne(id);
 
   @override
-  Future<bool> save(NewsModel value) async {
-    NewsModel? news = _fakeDB.firstWhereOrNull((element) => element == value);
-    if (news == null) {
-      _fakeDB.add(value);
-    } else {
-      int index = _fakeDB.indexOf(news);
-      _fakeDB[index] = value;
-    }
-    return true;
-  }
+  Future<bool> save(NewsModel value) async =>
+      value.id != null ? await _newsDAO.update(value) : await _newsDAO.create(value);
 }
