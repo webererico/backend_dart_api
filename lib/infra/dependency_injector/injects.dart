@@ -22,17 +22,17 @@ class Injects {
     // security injects
     di.register<SecurityService>(() => SecurityServiceImp());
 
-    // news injects
+    // news api injects
     di.register<NewsDAO>(() => NewsDAO(di.get<DBConfiguration>()));
     di.register<NewsService>(() => NewsService(di.get<NewsDAO>()));
     di.register<NewsApi>(() => NewsApi(di.get()));
 
-    // user injects
+    // user api injects
     di.register<UserDAO>(() => UserDAO(di.get<DBConfiguration>()));
     di.register<UserService>(() => UserService(di.get<UserDAO>()));
     di.register<UserApi>(() => UserApi(di.get<UserService>()));
 
-    // login injects
+    // login api injects
     di.register<LoginService>(() => LoginService(di.get<UserService>()));
     di.register<LoginApi>(
       () => LoginApi(

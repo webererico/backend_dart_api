@@ -15,7 +15,10 @@ void main(List<String> arguments) async {
       .add(di.get<NewsApi>().getHandler())
       .add(di.get<UserApi>().getHandler(isSecurity: true))
       .handler;
-  var handler = Pipeline().addMiddleware(MiddlewareInterception().middleware).addHandler(cascadeHandler);
+  var handler = Pipeline()
+      .addMiddleware(MiddlewareInterception.contentTypeJson)
+      .addMiddleware(MiddlewareInterception.cors)
+      .addHandler(cascadeHandler);
   await CustomServer().initialize(
     handler: handler,
     address: await CustomEnv.get<String>(key: serverAddress),
